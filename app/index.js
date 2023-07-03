@@ -1,8 +1,8 @@
-
 const express = require('express');
 const Blockchain = require('../blockchain');
 const bodyParser = require('body-parser');
-
+const P2pserver = require("./p2p-server");
+const p2pserver = new P2pserver(Blockchain);
 const app = express();
 app.use(bodyParser.json());
 const HTTP_PORT = process.env.HTTP_PORT || 3001;
@@ -25,3 +25,8 @@ app.post('/mine', (req, res) => {
 app.listen(HTTP_PORT, () => {
     console.log(`listening on port ${HTTP_PORT}`);
 })
+
+
+p2pserver.listen();
+// this starts the server
+
