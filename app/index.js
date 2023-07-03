@@ -1,11 +1,14 @@
+const HTTP_PORT = process.env.HTTP_PORT || 3001;
 const express = require('express');
 const Blockchain = require('../blockchain');
 const bodyParser = require('body-parser');
-const P2pserver = require("./p2p-server");
+const P2pserver = require("../p2p-server");
 const p2pserver = new P2pserver(Blockchain);
+
+require('dotenv').config();
+
 const app = express();
 app.use(bodyParser.json());
-const HTTP_PORT = process.env.HTTP_PORT || 3001;
 
 
 const blockchain = new Blockchain();

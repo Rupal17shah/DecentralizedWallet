@@ -14,7 +14,7 @@ class P2pserver {
 
     listen() {
         // creating a new p2p server with the port as argument
-        const server = new WebSocket.Server({ port: P2P_PORT });
+        const server = new ws.Server({ port: P2P_PORT });
         server.on('connection', socket => this.connectSocket(socket));
         this.connectToPeers();
         console.log(`Listening for peer-to-peer connections on: ${P2P_PORT}`);
@@ -32,10 +32,10 @@ class P2pserver {
     connectToPeers() {
         // now we will connect to all the peers 
         peers.forEach(peer => {
-            const socket = new WebSocket(peer);
+            const socket = new ws(peer);
 
             // open event is fired when the connection is established
-            socket.on('open',()=> this.connectSocket(socket))
+            socket.on('open', () => this.connectSocket(socket))
         });
     }
 
