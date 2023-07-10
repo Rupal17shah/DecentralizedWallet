@@ -7,7 +7,20 @@ class Transaction {
         //outputs is a list because we can have multiple outputs
         this.outputs = [];
     }
+    update(senderWallet, recipient, amount) {
+        const senderOutput = this.outputs.find(output => output.address === senderWallet.publicKey);
 
+        if (amount > senderWallet.amount) {
+            console.log(`Amount ${amount} exceeds balance`);
+            return;
+        }
+
+        senderOutput.amount = senderOutput.amount - amount;
+        this.outputs.push({ amount: amount, address: recipient });
+        Transaction.signTransaction(this, senderWallet);
+
+        return this;
+    }
     static newTransaction(senderWallet, recipient, amount) {
         if (amount > senderWallet.balance) {
             //return/ faild the transaction
@@ -15,10 +28,13 @@ class Transaction {
             return;
         }
 
-        return transaction.outputs.push(...[
-            { amount: senderWallet.balance - amount, address: senderWallet.publicKey },// to self
-            { amount: amount, address: recipient }// to recipient
-        ]);
+
+        // const test = this.outputs.push(...[
+        //     { amount: senderWallet.balance - amount, address: senderWallet.publicKey },// to self
+        //     { amount: amount, address: recipient }// to recipient
+        // ]);
+        console.log("test:", test);
+        return test;
     }
     static signTransaction(transaction, senderWallet) {
         transaction.input = {
@@ -28,5 +44,14 @@ class Transaction {
             signature: senderWallet.sign(ChainUtil.hash(transaction.outputs))
         }
     }
+
+    static verifyTransaction(transaction) {
+        return ChainUtil.verifySignature(
+            transaction.input.address,
+            transaction.input.signature,
+            ChainUtil.hash(transaction.outputs)
+        )
+    }
+
 }
 module.exports = Transaction;
