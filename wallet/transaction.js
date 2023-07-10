@@ -5,7 +5,7 @@ class Transaction {
     this.id = chainUtil.id();
     this.input = null;
     //outputs is a list because we can have multiple outputs
-      this.outputs = [];
+    this.outputs = [];
 
   }
   update(senderWallet, recipient, amount) {
@@ -24,15 +24,15 @@ class Transaction {
 
     return this;
   }
-    static newTransaction(senderWallet, recipient, amount) {
+  static newTransaction(senderWallet, recipient, amount) {
     if (amount > senderWallet.balance) {
       //return/ faild the transaction
       console.log(`Amount: ${amount} exceeds balance.`);
       return;
-      }
+    }
     const transaction = new this();
-    transaction.outputs.push([{amount: senderWallet.balance - amount,address: senderWallet.publicKey},{ amount: amount, address: recipient }]);
-    return transaction.outputs;
+    transaction.outputs.push([{ amount: senderWallet.balance - amount, address: senderWallet.publicKey }, { amount: amount, address: recipient }]);
+    return transaction;
   }
   static signTransaction(transaction, senderWallet) {
     transaction.input = {
@@ -44,10 +44,10 @@ class Transaction {
   }
 
   static verifyTransaction(transaction) {
-    return ChainUtil.verifySignature(
+    return chainUtil.verifySignature(
       transaction.input.address,
       transaction.input.signature,
-      ChainUtil.hash(transaction.outputs)
+      chainUtil.hash(transaction.outputs)
     );
   }
 }
