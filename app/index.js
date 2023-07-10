@@ -38,14 +38,13 @@ app.get('/transactions', (req, res) => {
     res.json(transactionPool.transactions);
 })
 //post end point for transactions
-app.post('/create/transaction', (req, res) => {
+app.post('/transact', (req, res) => {
     const { recipient, amount } = req.body;
+    console.log("recipient", recipient);
     const transaction = wallet.createTransaction(recipient, amount, transactionPool);
     p2pserver.syncChain();
     res.redirect('/transactions');
 })
-
-
 
 
 //listening app
