@@ -25,9 +25,7 @@ class Wallet {
             console.log(`Amount: ${amount} exceeds the current balance: ${this.balance}`);
             return;
         }
-
         let transaction = transactionPool.existingTransaction(this.publicKey);
-
         if (transaction) {
             transaction.update(this, recipient, amount)
         }
