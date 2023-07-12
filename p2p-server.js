@@ -52,12 +52,12 @@ class P2pserver {
   messageHandler(socket) {
     socket.on("message", (message) => {
       const data = JSON.parse(message);
-      console.log("data", data);
+      // console.log("data", data);
       if (data.type === MESSAGE_TYPE.transaction) {
-        console.log("data.transaction", data.transaction);
+        // console.log("data.transaction", data.transaction);
         this.transactionPool.updateOrAddTransaction(data.transaction);
       } else if (data.type === MESSAGE_TYPE.chain) {
-        console.log("data.chain", data.chain);
+        // console.log("data.chain", data.chain);
         this.blockchain.replaceChain(data);
       } else if (data.type === MESSAGE_TYPE.clear_transactions) {
         this.transactionPool.clear();
