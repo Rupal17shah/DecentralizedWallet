@@ -58,7 +58,7 @@ class P2pserver {
         this.transactionPool.updateOrAddTransaction(data.transaction);
       } else if (data.type === MESSAGE_TYPE.chain) {
         // console.log("data.chain", data.chain);
-        this.blockchain.replaceChain(data);
+        this.blockchain.replaceChain(data.chain);
       } else if (data.type === MESSAGE_TYPE.clear_transactions) {
         this.transactionPool.clear();
       }

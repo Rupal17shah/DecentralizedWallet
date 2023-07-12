@@ -10,17 +10,15 @@ class Blockchain {
 
     return block;
   }
-    isValidChain(chain) {
-    console.log( JSON.stringify(chain[0]) !==  JSON.stringify(Block.genesis()));
-    if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis()))
-    {
-        console.log("before:", chain.length);
-        return false;
+  isValidChain(chain) {
+    if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
+      console.log("before:", chain?.length);
+      return false;
     }
 
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i];
-        const lastBlock = chain[i - 1];
+      const lastBlock = chain[i - 1];
       if (
         block.lastHash !== lastBlock.hash ||
         block.hash !== Block.blockHash(block)
@@ -31,7 +29,6 @@ class Blockchain {
     return true;
   }
   replaceChain(newChain) {
-    console.log("newChain.length:", newChain.chain);
     if (newChain.length <= this.chain.length) {
       console.log("Recieved chain is not longer than the current chain");
       return;
