@@ -41,7 +41,8 @@ app.post("/transact", (req, res) => {
   const transaction = wallet.createTransaction(
     recipient,
     amount,
-    transactionPool
+    transactionPool,
+    blockchain
   );
   p2pserver.broadcastTransaction(transaction);
   console.log("transaction", transaction);
@@ -57,8 +58,15 @@ app.get("/mineTransactions", (req, res) => {
   if (block==null) res.json({ message: "No transactions to mine" });
   else {
     console.log(`New block added: ${block.toString()}`);
-    res.redirect("/blocks");
+    // res.redirect("/blocks");
+    res.redirect("/balance");
   }
+});
+
+app.get("/balance", (req, res) => {
+  const balance = wallet.calculateBalance(blockchain);
+  console.log("balance", wallet.balance);
+  res.send({balance: balance});
 });
 
 //listening app
