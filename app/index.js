@@ -6,16 +6,23 @@ const P2pserver = require("../p2p-server");
 const Wallet = require("../wallet");
 const Miner = require("./miner");
 const TransactionPool = require("../wallet/transaction-pool");
+const {
+  signupUser,
+  loginUser,
+  logoutUser,
+} = require("../controller/userController");
 
-require("dotenv").config();
-
-const app = express();
-app.use(bodyParser.json());
+// class instances
 const blockchain = new Blockchain();
 const wallet = new Wallet();
 const transactionPool = new TransactionPool();
 const p2pserver = new P2pserver(blockchain, transactionPool);
 const miner = new Miner(blockchain, transactionPool, wallet, p2pserver);
+const app = express();
+connectDB = require("../database/db");
+app.use(bodyParser.json());
+require("dotenv").config();
+connectDB();
 
 app.get("/blocks", (req, res) => {
   res.json(blockchain.chain);
@@ -55,7 +62,7 @@ app.get("/publicKey", (req, res) => {
 
 app.get("/mineTransactions", (req, res) => {
   const block = miner.mine();
-  if (block==null) res.json({ message: "No transactions to mine" });
+  if (block == null) res.json({ message: "No transactions to mine" });
   else {
     console.log(`New block added: ${block.toString()}`);
     // res.redirect("/blocks");
@@ -66,8 +73,14 @@ app.get("/mineTransactions", (req, res) => {
 app.get("/balance", (req, res) => {
   const balance = wallet.calculateBalance(blockchain);
   console.log("balance", wallet.balance);
-  res.send({balance: balance});
+  res.send({ balance: balance });
 });
+
+// signup and login api
+
+app.post("/signup", signupUser);
+app.post("/login", loginUser);
+app.get("/logout", logoutUser);
 
 //listening app
 app.listen(HTTP_PORT, () => {
