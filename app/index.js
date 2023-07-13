@@ -4,7 +4,7 @@ const Blockchain = require("../blockchain");
 const bodyParser = require("body-parser");
 const P2pserver = require("../p2p-server");
 const Wallet = require("../wallet");
-const Miner = require("./minor");
+const Miner = require("./miner");
 const TransactionPool = require("../wallet/transaction-pool");
 
 require("dotenv").config();
@@ -54,8 +54,11 @@ app.get("/publicKey", (req, res) => {
 
 app.get("/mineTransactions", (req, res) => {
   const block = miner.mine();
-  console.log(`New block added: ${block.toString()}`);
-  res.redirect("/blocks");
+  if (block==null) res.json({ message: "No transactions to mine" });
+  else {
+    console.log(`New block added: ${block.toString()}`);
+    res.redirect("/blocks");
+  }
 });
 
 //listening app
