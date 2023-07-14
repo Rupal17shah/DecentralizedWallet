@@ -18,6 +18,6 @@ It has the following features:
 2) npm install all the modules.
 3) navigate to app->index.js
 4) Now, to create the first user, on the first terminal type in `npm run dev`. This will create the first node.
-5) open a new terminal, and type in `HTTP_PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5002` npm run dev. This will be node 2.
+5) open a new terminal, and type in `HTTP_PORT=3002 P2P_PORT=5002 PEERS=ws://localhost:5002 npm run dev`. This will be node 2.
 6) open a new terminal, and type in `HTTP_PORT=3003 P2P_PORT=5003 PEERS=ws://localhost:5001,ws://localhost:5002 npm run dev`
 7) Now, this will create 3 different peers and the blockchain will be run and synced on all three. 
