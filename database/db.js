@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI=process.env.MONGODB_URI || "mongodb://localhost:27017/blockstream";
+const URI = process.env.MONGODB_URI || "mongodb://0.0.0.0:27017/blockstream";
 const connectDB = async () => {
   try {
     await mongoose.connect(URI, {
@@ -8,7 +8,7 @@ const connectDB = async () => {
     });
     console.log("MongoDB connection SUCCESS");
   } catch (error) {
-    console.error("MongoDB connection FAIL");
+    console.error(error);
   }
 };
 module.exports = connectDB;

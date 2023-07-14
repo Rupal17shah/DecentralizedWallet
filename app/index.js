@@ -5,20 +5,26 @@ const bodyParser = require("body-parser");
 const P2pserver = require("../p2p-server");
 const Wallet = require("../wallet");
 const Miner = require("./miner");
+const cors = require("cors");
+
+
 const TransactionPool = require("../wallet/transaction-pool");
 const {
   signupUser,
   loginUser,
   logoutUser,
 } = require("../controller/userController");
+const { verifyToken } = require("../controller/jwtController");
 
 // class instances
+
 const blockchain = new Blockchain();
 const wallet = new Wallet();
 const transactionPool = new TransactionPool();
 const p2pserver = new P2pserver(blockchain, transactionPool);
 const miner = new Miner(blockchain, transactionPool, wallet, p2pserver);
 const app = express();
+app.use(cors());
 connectDB = require("../database/db");
 app.use(bodyParser.json());
 require("dotenv").config();
@@ -81,6 +87,7 @@ app.get("/balance", (req, res) => {
 app.post("/signup", signupUser);
 app.post("/login", loginUser);
 app.get("/logout", logoutUser);
+app.get("/abc", verifyToken, (req, res) => { res.send("hello") })
 
 //listening app
 app.listen(HTTP_PORT, () => {

@@ -1,13 +1,17 @@
 const User = require("../models/user");
-const verifyToken = (req, res, next) => {
-  const bearerHeader = req.headers["authorization"];
-  if (typeof bearerHeader !== "undefined") {
-    const bearer = bearerHeader.split(" ");
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
+
+const jwt = require("jsonwebtoken");
+const verifyToken = async (req, res, next) => {
+  const token = req.headers["authorization"];
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+  try {
+    const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = decoded;
     next();
-  } else {
-    res.sendStatus(403);
+  } catch (err) {
+    return res.status(401).json({ message: "Token is not valid" });
   }
 };
 
@@ -18,6 +22,8 @@ const checkRoles = (roles) => async (req, res, next) => {
   roles.includes(user.role)
     ? next()
     : res
-        .status(401)
-        .json({ message: "Sorry you do not have access to this route" });
+      .status(401)
+      .json({ message: "Sorry you do not have access to this route" });
 };
+
+module.exports = { verifyToken, checkRoles };

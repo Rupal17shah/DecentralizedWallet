@@ -7,6 +7,7 @@ const signupUser = async (req, res) => {
   try {
     var { name, email, password, role } = req.body;
     //getting the user by name if any
+    // console.log(role);
     const validEmail = async (email) => {
       let users = await User.findOne({ email });
       return users ? false : true;
