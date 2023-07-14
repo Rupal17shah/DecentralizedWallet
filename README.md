@@ -1,9 +1,9 @@
-### BlockStream: Earn Infinity, Trade Infinity
+# BlockStream: Earn Infinity, Trade Infinity
 
-## Description
+### Description
 This application is a Public Blockchain wallet. It ensures safe and secure trade and transactions of the coin infinity between the nodes. This app also includes the formation of multiple nodes and peers over the p2p network. 
 It has the following features:
-# Features
+### Features
 1) It allows the creation of blocks in the blockchain.
 2) Any data can be securely stored in the blocks.
 3) The chain is broadcasted across all the nodes through the creation of p2p network using `ws`. 
