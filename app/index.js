@@ -7,12 +7,12 @@ const Wallet = require("../wallet");
 const Miner = require("./miner");
 const cors = require("cors");
 
-
 const TransactionPool = require("../wallet/transaction-pool");
 const {
   signupUser,
   loginUser,
   logoutUser,
+  nodes,
 } = require("../controller/userController");
 const { verifyToken } = require("../controller/jwtController");
 
@@ -45,6 +45,7 @@ app.post("/mine", (req, res) => {
 
 //get end point for transactions
 app.get("/transactions", (req, res) => {
+  console.log(res.data);
   res.json(transactionPool.transactions);
 });
 //post end point for transactions
@@ -87,7 +88,11 @@ app.get("/balance", (req, res) => {
 app.post("/signup", signupUser);
 app.post("/login", loginUser);
 app.get("/logout", logoutUser);
-app.get("/abc", verifyToken, (req, res) => { res.send("hello") })
+app.get("/abc", verifyToken, (req, res) => {
+  res.send("hello");
+});
+
+app.get("/nodes", nodes);
 
 //listening app
 app.listen(HTTP_PORT, () => {

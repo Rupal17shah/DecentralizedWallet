@@ -24,6 +24,15 @@ const signupUser = async (req, res) => {
   }
 };
 
+const nodes = async (req, res) => {
+  try {
+    let users = await User.find();
+    return res.status(200).json({ users });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 const loginUser = async (req, res) => {
   let users = await User.findOne({ email: req.body.email });
   if (!users) {
@@ -57,4 +66,4 @@ const logoutUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser, logoutUser };
+module.exports = { signupUser, loginUser, logoutUser,nodes };
